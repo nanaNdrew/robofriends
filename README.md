@@ -4,7 +4,7 @@ An interactive, graph-theory-based web application to visually map and explore y
 
 ## Screenshot & Demo
 
-![Best Friends Circle Network Graph](screenshot.png) *(Note: Replace with actual screenshot path)*
+![Best Friends Circle Network Graph](public/screenshot.png)
 
 ## Problem and Approach
 

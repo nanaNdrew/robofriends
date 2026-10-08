@@ -4,7 +4,7 @@ import GraphView from './GraphView';
 import ConnectionBuilder from './ConnectionBuilder';
 import NodeBuilder from './NodeBuilder';
 
-const Dashboard = ({ robots, searchfield, onSearchChange, onAddConnection, onAddNode, onLogout }) => {
+const Dashboard = ({ robots, searchfield, onSearchChange, onAddConnection, onAddNode, onRemoveNode, onLogout }) => {
   return (
     <div className="tc" style={{ paddingBottom: '4rem', animation: 'fadeIn 0.5s ease' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 3rem' }}>
@@ -26,7 +26,7 @@ const Dashboard = ({ robots, searchfield, onSearchChange, onAddConnection, onAdd
            Your circle is empty! Start adding people below.
         </div>
       ) : (
-        <GraphView members={robots} searchfield={searchfield} />
+        <GraphView members={robots} searchfield={searchfield} onRemoveNode={onRemoveNode} />
       )}
       
       <NodeBuilder onAddNode={onAddNode} />

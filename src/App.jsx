@@ -68,7 +68,7 @@ const App = () => {
 
   const handleAddNode = (person) => {
     setUserRobots(prev => {
-      const newId = prev.length + 1;
+      const newId = prev.length ? Math.max(...prev.map(p => p.id)) + 1 : 1;
       const finalImage = person.imageUrl || `/images/person_${Math.floor(Math.random() * 10) + 1}.jpg`;
       
       return [...prev, {
@@ -78,6 +78,28 @@ const App = () => {
         imageUrl: finalImage,
         friends: []
       }];
+    });
+  };
+
+  const handleRemoveNode = (nodeIndexToRemove) => {
+    setUserRobots(prevRobots => {
+      // 1. Remove the node
+      const filteredRobots = prevRobots.filter((_, idx) => idx !== nodeIndexToRemove);
+      
+      // 2. Update the friend indices because the array shifted!
+      return filteredRobots.map(robot => {
+        const updatedFriends = robot.friends
+          .filter(f => f.index !== nodeIndexToRemove) // Remove connections to the deleted node
+          .map(f => {
+            // Shift index down if it was after the deleted node
+            if (f.index > nodeIndexToRemove) {
+              return { ...f, index: f.index - 1 };
+            }
+            return f;
+          });
+          
+        return { ...robot, friends: updatedFriends };
+      });
     });
   };
 
@@ -97,6 +119,7 @@ const App = () => {
             onSearchChange={onSearchChange} 
             onAddConnection={handleAddConnection} 
             onAddNode={handleAddNode}
+            onRemoveNode={handleRemoveNode}
             onLogout={() => {
               setIsLoggedIn(false);
               setSearchfield('');
