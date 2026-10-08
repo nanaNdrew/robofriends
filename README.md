@@ -30,10 +30,10 @@ To run this project locally, execute the following commands in your terminal:
 
 ```bash
 # Clone the repository
-git clone https://github.com/nanaNdrew/robofriends.git
+git clone https://github.com/nanaNdrew/best-friends-circle.git
 
 # Navigate into the directory
-cd robofriends
+cd best-friends-circle
 
 # Install the necessary dependencies
 npm install
