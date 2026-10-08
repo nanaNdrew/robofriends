@@ -131,7 +131,7 @@ const GraphView = ({ members, searchfield }) => {
                cursor: 'pointer'
             }}>
               <img 
-                src={`/images/person_${(node.id - 1) % 10 + 1}.jpg`} 
+                src={node.imageUrl || `/images/person_${(node.id - 1) % 10 + 1}.jpg`} 
                 alt={node.name} 
                 style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', display: 'block' }}
               />
@@ -160,7 +160,7 @@ const GraphView = ({ members, searchfield }) => {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
             <img 
-              src={`/images/person_${(nodes[hoveredNode].id - 1) % 10 + 1}.jpg`} 
+              src={nodes[hoveredNode].imageUrl || `/images/person_${(nodes[hoveredNode].id - 1) % 10 + 1}.jpg`} 
               alt={nodes[hoveredNode].name} 
               style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
             />

@@ -44,10 +44,7 @@ const App = () => {
            friends: Array.from(connections[i].entries()).map(([index, rel]) => ({ index, relationship: rel }))
         }));
 
-        const uRobots = formattedUsers.map(user => ({
-           ...user,
-           friends: []
-        }));
+        const uRobots = []; // Start completely empty!
 
         setLandingRobots(lRobots);
         setUserRobots(uRobots);
@@ -69,6 +66,21 @@ const App = () => {
     });
   };
 
+  const handleAddNode = (person) => {
+    setUserRobots(prev => {
+      const newId = prev.length + 1;
+      const finalImage = person.imageUrl || `/images/person_${Math.floor(Math.random() * 10) + 1}.jpg`;
+      
+      return [...prev, {
+        id: newId,
+        name: person.name,
+        email: person.email || '',
+        imageUrl: finalImage,
+        friends: []
+      }];
+    });
+  };
+
   return !landingRobots.length ?
     <h1 className="tc loading">Loading Network...</h1> :
     (
@@ -84,6 +96,7 @@ const App = () => {
             searchfield={searchfield} 
             onSearchChange={onSearchChange} 
             onAddConnection={handleAddConnection} 
+            onAddNode={handleAddNode}
             onLogout={() => {
               setIsLoggedIn(false);
               setSearchfield('');
