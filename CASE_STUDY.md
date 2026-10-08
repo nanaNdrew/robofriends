@@ -1,7 +1,7 @@
-# Case Study: Best Friends Circle (formerly Robofriends)
+# Case Study: Circle of Friends (formerly Robofriends)
 
 ## 1. Overview
-**Best Friends Circle** is a complete reimagining of a classic React tutorial project ("Robofriends"). What started as a basic, static grid of robot profiles was transformed into a highly interactive, graph-theory-driven web application that allows users to dynamically map and visualize their social networks.
+**Circle of Friends** is a complete reimagining of a classic React tutorial project ("Robofriends"). What started as a basic, static grid of robot profiles was transformed into a highly interactive, graph-theory-driven web application that allows users to dynamically map and visualize their social networks.
 
 ## 2. The Context
 The original "Robofriends" application was built years ago using legacy tools (`create-react-app`). It successfully demonstrated basic React concepts like component mapping and state filtering, but lacked interactivity, meaningful data relationships, and modern design aesthetics. The primary goal of this project was to elevate the application from a simple Minimum Viable Product (MVP) to a premium, portfolio-ready showcase of modern web development and data visualization.

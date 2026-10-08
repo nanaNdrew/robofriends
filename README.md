@@ -1,10 +1,10 @@
-# Best Friends Circle
+# Circle of Friends
 
 An interactive, graph-theory-based web application to visually map and explore your closest friendships and social networks.
 
 ## Screenshot & Demo
 
-![Best Friends Circle Network Graph](public/screenshot.png)
+![Circle of Friends Network Graph](public/screenshot.png)
 
 ## Problem and Approach
 

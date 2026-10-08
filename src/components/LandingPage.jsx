@@ -5,7 +5,7 @@ const LandingPage = ({ robots, onLogin }) => {
   return (
     <div className="tc" style={{ paddingBottom: '4rem', animation: 'fadeIn 0.5s ease' }}>
       <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10, position: 'relative' }}>
-        <h1 className="header-title" style={{ fontSize: '5rem', marginBottom: '0.5rem' }}>Best Friends Circle</h1>
+        <h1 className="header-title" style={{ fontSize: '5rem', marginBottom: '0.5rem' }}>Circle of Friends</h1>
         <p style={{ color: '#94a3b8', fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto 2rem', lineHeight: '1.6' }}>
           Visualize your network, map your friendships, and discover the connections that matter most.
         </p>
