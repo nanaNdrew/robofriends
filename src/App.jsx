@@ -69,7 +69,7 @@ const App = () => {
   const handleAddNode = (person) => {
     setUserRobots(prev => {
       const newId = prev.length ? Math.max(...prev.map(p => p.id)) + 1 : 1;
-      const finalImage = person.imageUrl || `/images/person_${Math.floor(Math.random() * 10) + 1}.jpg`;
+      const finalImage = person.imageUrl || `./images/person_${Math.floor(Math.random() * 10) + 1}.jpg`;
       
       return [...prev, {
         id: newId,
