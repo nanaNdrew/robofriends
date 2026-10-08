@@ -2,6 +2,8 @@
 
 An interactive, graph-theory-based web application to visually map and explore your closest friendships and social networks.
 
+👉 **[Read the full Case Study here!](CASE_STUDY.md)**
+
 ## Screenshot & Demo
 
 ![Circle of Friends Network Graph](public/screenshot.png)
