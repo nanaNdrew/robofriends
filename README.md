@@ -1,16 +1,46 @@
-# React + Vite
+# Best Friends Circle
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+An interactive, graph-theory-based web application to visually map and explore your closest friendships and social networks.
 
-Currently, two official plugins are available:
+## Screenshot & Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Best Friends Circle Network Graph](screenshot.png) *(Note: Replace with actual screenshot path)*
 
-## React Compiler
+## Problem and Approach
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**The Problem:** The original project was a simple, static grid-based layout of profile cards. It lacked dynamic interactivity and provided no meaningful insight into how people were actually connected.
 
-## Expanding the Oxlint configuration
+**The Approach:** We completely reimagined the application from the ground up, transforming it into a dynamic circular network graph. 
+- **Graph Theory & Visualization:** By leveraging trigonometric positioning (`Math.sin` and `Math.cos`) and SVG edge routing, we created a circular layout where node sizes scale dynamically based on their "degree centrality" (number of connections).
+- **Interactive UI:** Users can now build their *own* custom circles from an empty slate, adding real friends and manually drawing connections (e.g., "Coworker", "Gym Buddy"). Hovering over a person instantly highlights their entire personal network while dimming others.
+- **Aesthetics:** We implemented a modern glassmorphic design system with vibrant gradients, glowing edges, and smooth micro-animations to create a premium, engaging user experience.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Tech Stack
+
+- **React:** For state management and component architecture.
+- **Vite:** For lightning-fast local development and optimized production builds.
+- **Vanilla CSS:** Custom CSS for glassmorphism, responsive design, and animations (no bulky frameworks).
+- **SVG:** For precise, mathematically calculated interactive edge drawing between nodes.
+
+## Setup Steps
+
+To run this project locally, execute the following commands in your terminal:
+
+```bash
+# Clone the repository
+git clone https://github.com/nanaNdrew/robofriends.git
+
+# Navigate into the directory
+cd robofriends
+
+# Install the necessary dependencies
+npm install
+
+# Start the Vite development server
+npm run dev
+```
+
+## Notes and Trade-offs
+
+- **Layout Choice:** We opted for a fixed, mathematically calculated circular layout rather than a physics-based force-directed graph (like D3.js). This trade-off significantly reduces bundle size, eliminates the need for heavy third-party libraries, and ensures perfectly predictable and performant React rendering for up to ~20 nodes.
+- **State Management:** Currently, the custom network state (nodes and relationships) is maintained entirely in local React state (`useState`). This means the custom graph resets on a page refresh. A logical next step for scalability would be adding `localStorage` persistence or integrating a lightweight backend database to save user circles.

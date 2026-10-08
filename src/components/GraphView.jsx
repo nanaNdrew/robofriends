@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GraphView = ({ members, searchfield }) => {
+const GraphView = ({ members, searchfield, onRemoveNode }) => {
   const [hoveredNode, setHoveredNode] = useState(null);
   
   // Sizing properties
@@ -128,13 +128,40 @@ const GraphView = ({ members, searchfield }) => {
                background: isHovered ? 'linear-gradient(to right, #818cf8, #c084fc)' : 'rgba(255,255,255,0.1)',
                boxShadow: isActive ? '0 0 20px rgba(139, 92, 246, 0.6)' : '0 4px 6px rgba(0,0,0,0.3)',
                transition: 'all 0.3s',
-               cursor: 'pointer'
+               cursor: 'pointer',
+               position: 'relative'
             }}>
               <img 
                 src={node.imageUrl || `/images/person_${(node.id - 1) % 10 + 1}.jpg`} 
                 alt={node.name} 
                 style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', display: 'block' }}
               />
+              
+              {isHovered && onRemoveNode && (
+                <button 
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    setHoveredNode(null); 
+                    onRemoveNode(i); 
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '-5px', right: '-5px',
+                    background: '#ef4444', color: 'white',
+                    border: 'none', borderRadius: '50%',
+                    width: '24px', height: '24px',
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontWeight: 'bold', fontSize: '12px', zIndex: 30,
+                    boxShadow: '0 2px 5px rgba(0,0,0,0.5)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={e => e.target.style.transform = 'scale(1.1)'}
+                  onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+                  title="Remove from Circle"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
         )
