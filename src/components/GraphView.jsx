@@ -29,7 +29,8 @@ const GraphView = ({ members, searchfield }) => {
       {/* Edges */}
       <svg viewBox={`0 0 ${size} ${size}`} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'visible' }}>
         {nodes.map((node, i) => 
-          node.friends.map(friendIndex => {
+          node.friends.map(friend => {
+            const friendIndex = friend.index;
             // Draw each edge only once
             if (i < friendIndex) {
               const target = nodes[friendIndex];
@@ -46,18 +47,40 @@ const GraphView = ({ members, searchfield }) => {
               const color = isHovered ? '#c084fc' : '#818cf8';
               const strokeWidth = isHovered ? 4 : 2;
               
+              const midX = (node.x + target.x) / 2;
+              const midY = (node.y + target.y) / 2;
+              
               return (
-                <line 
-                  key={`${i}-${friendIndex}`}
-                  x1={node.x} 
-                  y1={node.y} 
-                  x2={target.x} 
-                  y2={target.y} 
-                  stroke={color} 
-                  strokeWidth={strokeWidth} 
-                  strokeOpacity={opacity}
-                  style={{ transition: 'all 0.3s ease', filter: isHovered ? 'drop-shadow(0 0 8px rgba(192, 132, 252, 0.8))' : 'none' }}
-                />
+                <g key={`${i}-${friendIndex}`} style={{ transition: 'all 0.3s ease', opacity }}>
+                  <line 
+                    x1={node.x} 
+                    y1={node.y} 
+                    x2={target.x} 
+                    y2={target.y} 
+                    stroke={color} 
+                    strokeWidth={strokeWidth} 
+                    style={{ filter: isHovered ? 'drop-shadow(0 0 8px rgba(192, 132, 252, 0.8))' : 'none' }}
+                  />
+                  {isHovered && (
+                    <text 
+                      x={midX} 
+                      y={midY} 
+                      fill="#f8fafc" 
+                      fontSize="14" 
+                      textAnchor="middle" 
+                      dominantBaseline="middle"
+                      style={{
+                        textShadow: '0 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(139,92,246,1), 0 0 20px rgba(139,92,246,0.5)',
+                        fontWeight: '700',
+                        pointerEvents: 'none',
+                        fontFamily: 'Outfit, sans-serif',
+                        letterSpacing: '1px'
+                      }}
+                    >
+                      {friend.relationship}
+                    </text>
+                  )}
+                </g>
               );
             }
             return null;
@@ -68,7 +91,7 @@ const GraphView = ({ members, searchfield }) => {
       {/* Nodes */}
       {nodes.map((node, i) => {
         const isHovered = hoveredNode === i;
-        const isConnected = hoveredNode !== null && node.friends.includes(hoveredNode);
+        const isConnected = hoveredNode !== null && node.friends.some(f => f.index === hoveredNode);
         const isActive = isHovered || isConnected;
         
         const searchActive = searchfield.length > 0;
@@ -113,43 +136,62 @@ const GraphView = ({ members, searchfield }) => {
                 style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover', display: 'block' }}
               />
             </div>
-            
-            <div className="node-tooltip" style={{
-              position: 'absolute',
-              top: '100%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              marginTop: '15px',
-              background: 'rgba(15, 23, 42, 0.95)',
-              padding: '0.75rem 1.25rem',
-              borderRadius: '12px',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
-              backdropFilter: 'blur(10px)',
-              pointerEvents: 'none',
-              opacity: isHovered ? 1 : 0,
-              visibility: isHovered ? 'visible' : 'hidden',
-              transition: 'all 0.2s ease',
-              whiteSpace: 'nowrap',
-              textAlign: 'center',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.6)'
-            }}>
-              <div style={{ fontWeight: '800', color: '#f8fafc', fontSize: '1.1rem', marginBottom: '4px' }}>{node.name}</div>
-              <div style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '6px' }}>{node.email}</div>
-              <div style={{ 
-                 display: 'inline-block',
-                 background: 'rgba(139, 92, 246, 0.2)', 
-                 color: '#c084fc', 
-                 padding: '2px 8px', 
-                 borderRadius: '20px',
-                 fontSize: '0.8rem',
-                 fontWeight: 'bold'
-              }}>
-                 {node.friends.length} Connections
-              </div>
-            </div>
           </div>
         )
       })}
+      
+      {/* Fixed Info Panel */}
+      {hoveredNode !== null && (
+        <div className="info-panel" style={{
+          position: 'absolute',
+          bottom: '-20px',
+          right: '-40px',
+          background: 'rgba(15, 23, 42, 0.95)',
+          padding: '1.5rem',
+          borderRadius: '16px',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
+          backdropFilter: 'blur(10px)',
+          pointerEvents: 'none',
+          boxShadow: '0 15px 40px rgba(0,0,0,0.7)',
+          zIndex: 20,
+          textAlign: 'left',
+          minWidth: '260px',
+          animation: 'fadeIn 0.3s ease'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
+            <img 
+              src={`/images/person_${(nodes[hoveredNode].id - 1) % 10 + 1}.jpg`} 
+              alt={nodes[hoveredNode].name} 
+              style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }}
+            />
+            <div>
+              <div style={{ fontWeight: '800', color: '#f8fafc', fontSize: '1.2rem' }}>{nodes[hoveredNode].name}</div>
+              <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>{nodes[hoveredNode].email}</div>
+            </div>
+          </div>
+          <div style={{ 
+             display: 'inline-block',
+             background: 'rgba(139, 92, 246, 0.2)', 
+             color: '#c084fc', 
+             padding: '4px 10px', 
+             borderRadius: '20px',
+             fontSize: '0.85rem',
+             fontWeight: 'bold',
+             marginBottom: '15px'
+          }}>
+             {nodes[hoveredNode].friends.length} Connections
+          </div>
+          
+          <div style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+            {nodes[hoveredNode].friends.map(f => (
+              <div key={f.index} style={{ margin: '6px 0', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '4px' }}>
+                <span style={{ fontWeight: '600' }}>{nodes[f.index].name}</span>
+                <span style={{ color: '#818cf8', opacity: 0.9 }}>{f.relationship}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
